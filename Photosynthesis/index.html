@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photosynthesis: Living Environment Simulator</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- p5.js for Immersive Visuals -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+
+    <!-- Chart.js for Analysis Overlay -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- p5.js Canvas Container (Background) -->
+    <div id="canvas-container"></div>
+
+    <!-- UI Overlay: Game HUD -->
+    <div id="ui-layer">
+
+        <!-- Header -->
+        <header class="game-header">
+            <h1>Photosynthesis</h1>
+            <p class="subtitle">Living Environment Simulator</p>
+        </header>
+
+        <!-- Game Clock & Controls -->
+        <div id="clock-container">
+            <div id="clock-display">Day 1 <span class="time-divider">|</span> 12:00</div>
+            <button id="btn-pause" class="glass-icon-btn">⏸</button>
+        </div>
+
+        <!-- Left Control Panel: Environmental Factors -->
+        <div class="control-panel left-panel" id="panel-env">
+            <button class="mobile-close-btn">&times;</button>
+            <h2>Environment</h2>
+
+            <div class="control-group" id="ctrl-light">
+                <label for="slider-light">Light Intensity (Sun)</label>
+                <input type="range" id="slider-light" min="0" max="100" value="50">
+                <div class="value-display"><span id="val-light">50</span>%</div>
+            </div>
+
+            <div class="control-group" id="ctrl-co2">
+                <label for="slider-co2">CO₂ Concentration</label>
+                <input type="range" id="slider-co2" min="0" max="100" value="40">
+                <div class="value-display"><span id="val-co2">40</span>%</div>
+            </div>
+
+            <div class="control-group" id="ctrl-temp">
+                <label for="slider-temp">Temperature</label>
+                <input type="range" id="slider-temp" min="0" max="50" value="25">
+                <div class="value-display"><span id="val-temp">25</span>°C</div>
+            </div>
+        </div>
+
+        <!-- Right Control Panel: Status & Feedback -->
+        <div class="control-panel right-panel" id="panel-stats">
+            <button class="mobile-close-btn">&times;</button>
+            <h2>Plant Status</h2>
+            <div class="stat-item">
+                <span class="stat-label">Growth Rate</span>
+                <div class="progress-bar-bg">
+                    <div id="bar-growth" class="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <div class="stat-item">
+                <span class="stat-label" id="limiting-factor-label">Limiting Factor: None</span>
+            </div>
+
+            <div class="stat-item">
+                <span class="stat-label">Biomass</span>
+                <span id="stat-biomass" class="stat-value">0</span>
+            </div>
+
+            <button id="btn-analysis" class="glass-btn">📊 Analysis & Data</button>
+        </div>
+
+        <!-- Mobile Toggles (Visible only on small screens) -->
+        <div id="mobile-toggles">
+            <button id="btn-toggle-env" class="toggle-btn">
+                <span>🌱</span> Environment
+            </button>
+            <button id="btn-toggle-stats" class="toggle-btn">
+                <span>🍀</span> Status
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Analysis Overlay (Hidden by Default) -->
+    <div id="analysis-overlay" class="hidden">
+        <div class="overlay-content">
+            <button id="btn-close-analysis" class="close-btn">&times;</button>
+            <h2>Photosynthesis Analysis</h2>
+            <p>Liebig's Law of the Minimum: Growth is dictated not by total resources available, but by the scarcest
+                resource (limiting factor).</p>
+
+            <div class="chart-container">
+                <canvas id="rateChart"></canvas>
+            </div>
+
+            <div class="analysis-stats">
+                <div class="stat-box">
+                    <h3>Current Rate</h3>
+                    <p id="overlay-rate">0%</p>
+                </div>
+                <div class="stat-box">
+                    <h3>Limiting Factor</h3>
+                    <p id="overlay-limit">--</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

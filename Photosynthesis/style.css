@@ -1,0 +1,500 @@
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --glass-blur: 30px;
+    --text-primary: #1e293b;
+    --text-secondary: #475569;
+    --accent-color: #10b981;
+    --accent-warn: #eab308;
+    --accent-danger: #ef4444;
+    --font-family: 'Outfit', sans-serif;
+    --shadow-soft: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-family);
+    overflow: hidden;
+    background-color: #e0f2fe;
+    color: var(--text-primary);
+    width: 100vw;
+    height: 100vh;
+}
+
+#canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#ui-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    padding: 2rem;
+}
+
+/* Header */
+.game-header {
+    text-align: center;
+    pointer-events: auto;
+    margin-bottom: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    padding: 12px 40px;
+    border-radius: 50px;
+    display: inline-block;
+    align-self: center;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--glass-border);
+    transition: all 0.3s;
+}
+
+.game-header h1 {
+    font-weight: 800;
+    font-size: 2.2rem;
+    color: #0f172a;
+    letter-spacing: -1px;
+    text-shadow: 0 2px 4px rgba(255, 255, 255, 0.5);
+}
+
+.subtitle {
+    font-weight: 600;
+    color: #334155;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* --- Clock & Controls --- */
+#clock-container {
+    pointer-events: auto;
+    align-self: center;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    padding: 8px 20px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-soft);
+}
+
+#clock-display {
+    font-family: 'Courier New', monospace;
+    /* Digital feel */
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #1e293b;
+    letter-spacing: 0.5px;
+}
+
+.time-divider {
+    color: var(--accent-color);
+    margin: 0 5px;
+    opacity: 0.7;
+}
+
+.glass-icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    color: #0f172a;
+}
+
+.glass-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(1.1);
+}
+
+.glass-icon-btn:active {
+    transform: scale(0.95);
+}
+
+
+/* Panels */
+.control-panel {
+    pointer-events: auto;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    -webkit-backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-border);
+    border-radius: 30px;
+    padding: 2rem;
+    width: 320px;
+    box-shadow: var(--shadow-soft);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: absolute;
+    top: 55%;
+    transform: translateY(-50%);
+}
+
+.control-panel:hover {
+    transform: translateY(-52%);
+    background: rgba(255, 255, 255, 0.35);
+}
+
+.control-panel h2 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    font-weight: 800;
+    color: #1e293b;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.left-panel {
+    left: 3rem;
+}
+
+.right-panel {
+    right: 3rem;
+}
+
+.mobile-close-btn {
+    display: none;
+}
+
+/* Hidden on desktop */
+
+/* Controls */
+.control-group {
+    margin-bottom: 1.5rem;
+    position: relative;
+    padding: 8px;
+    border-radius: 16px;
+    transition: background 0.3s;
+}
+
+.control-group:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.control-group.limiting-factor {
+    border: 2px solid #fca5a5;
+    background: rgba(254, 226, 226, 0.6);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.2);
+}
+
+.control-group label {
+    display: block;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+    color: #334155;
+}
+
+input[type="range"] {
+    width: 100%;
+    -webkit-appearance: none;
+    background: transparent;
+    margin-bottom: 0.5rem;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    background: white;
+    border: 3px solid var(--accent-color);
+    cursor: pointer;
+    margin-top: -9px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.1s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+}
+
+#slider-light::-webkit-slider-thumb {
+    border-color: #f59e0b;
+}
+
+#slider-temp::-webkit-slider-thumb {
+    border-color: #ef4444;
+}
+
+#slider-co2::-webkit-slider-thumb {
+    border-color: #3b82f6;
+}
+
+.value-display {
+    font-size: 0.9rem;
+    text-align: right;
+    color: #0f172a;
+    font-weight: 800;
+    font-family: monospace;
+    background: rgba(255, 255, 255, 0.6);
+    padding: 2px 6px;
+    border-radius: 6px;
+    display: inline-block;
+    float: right;
+    margin-top: -34px;
+}
+
+.stat-item {
+    margin-bottom: 1.5rem;
+}
+
+.stat-label {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 0.4rem;
+    color: #64748b;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.stat-value {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1;
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4ade80, #22c55e);
+    width: 0%;
+    transition: width 0.3s;
+}
+
+.glass-btn {
+    width: 100%;
+    padding: 14px;
+    background: rgba(15, 23, 42, 0.8);
+    border: none;
+    color: white;
+    font-family: var(--font-family);
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.glass-btn:hover {
+    background: rgba(15, 23, 42, 0.95);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile Toggles */
+#mobile-toggles {
+    display: none;
+}
+
+/* Hidden on desktop */
+
+/* Overlay */
+#analysis-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(40px);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+
+#analysis-overlay.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.overlay-content {
+    background: rgba(255, 255, 255, 0.8);
+    border: 1px solid white;
+    padding: 3rem;
+    border-radius: 40px;
+    width: 80%;
+    max-width: 900px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+}
+
+.close-btn {
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    background: #f1f5f9;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+}
+
+.close-btn:hover {
+    transform: rotate(90deg);
+    background: #e2e8f0;
+}
+
+/* Responsive / Hybrid Popup Mode */
+@media (max-width: 1024px) {
+    .control-panel {
+        width: 280px;
+        padding: 1.5rem;
+    }
+
+    .left-panel {
+        left: 1.5rem;
+    }
+
+    .right-panel {
+        right: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #ui-layer {
+        padding: 1rem;
+        justify-content: space-between;
+    }
+
+    .game-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .subtitle {
+        font-size: 0.7rem;
+    }
+
+    /* Hide panels default */
+    .control-panel {
+        position: fixed;
+        left: 50%;
+        bottom: 100px;
+        /* Above buttons */
+        transform: translateX(-50%) scale(0.9);
+        top: auto;
+        width: 90%;
+        max-width: 350px;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        z-index: 50;
+    }
+
+    .control-panel.panel-active {
+        opacity: 1;
+        pointer-events: auto;
+        transform: translateX(-50%) scale(1);
+    }
+
+    .control-panel:hover {
+        transform: translateX(-50%) scale(1);
+    }
+
+    /* Disable hover lift on mobile */
+
+    /* Mobile Buttons */
+    #mobile-toggles {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        pointer-events: auto;
+        margin-bottom: 1rem;
+        z-index: 60;
+    }
+
+    .toggle-btn {
+        background: rgba(255, 255, 255, 0.25);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        padding: 12px 24px;
+        border-radius: 50px;
+        color: #0f172a;
+        font-family: var(--font-family);
+        font-weight: 700;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: transform 0.2s, background 0.2s;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .toggle-btn:active {
+        transform: scale(0.95);
+    }
+
+    .toggle-btn.active {
+        background: rgba(255, 255, 255, 0.6);
+        border-color: white;
+    }
+
+    .mobile-close-btn {
+        display: block;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: #64748b;
+        cursor: pointer;
+    }
+}
