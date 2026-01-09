@@ -3,7 +3,6 @@
 A gamified, interactive biology simulation that brings the science of photosynthesis to life through procedural art and real-time data visualization.
 
 ![Project Hero Image](images/day.png)
-*(Place your screenshot or hero image here)*
 
 ## 🚀 Overview
 
